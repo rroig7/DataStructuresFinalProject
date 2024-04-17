@@ -1,0 +1,14 @@
+//
+// Created by rroig on 4/17/2024.
+//
+
+#ifndef DATASTRUCTURESFINALPROJECT_GRAPH_H
+#define DATASTRUCTURESFINALPROJECT_GRAPH_H
+
+
+class Graph {
+
+};
+
+
+#endif //DATASTRUCTURESFINALPROJECT_GRAPH_H
