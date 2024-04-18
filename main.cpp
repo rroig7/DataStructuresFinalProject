@@ -4,12 +4,14 @@
 
 #include "FileHandler.h"
 #include "Graph.h"
+#include <vector>
+
 
 int main(){
     
     FileHandler infile("../airports.csv");
-
-    infile.getRowsAsVector();
+    
+    std::vector<std::vector<std::string>> fileData = infile.getRowsAsVector();
     
     return 0;
 }

@@ -3,9 +3,9 @@
 //
 
 #include "FileHandler.h"
-#include <utility>
 #include <limits>
 #include <algorithm>
+#include <utility>
 
 FileHandler::FileHandler(std::string path) : filePath(std::move(path)) {}
 
@@ -37,16 +37,19 @@ std::vector<std::vector<std::string>> FileHandler::getRowsAsVector() {
         // Strips the " character from the string.
         currentLine.erase(std::remove(currentLine.begin(), currentLine.end(), '\"'), currentLine.end());
         
+        // Removes spaces from input.
+        currentLine.erase(std::remove(currentLine.begin(), currentLine.end(), ' '), currentLine.end());
+        
         std::string to_insert;
         
         // Using "," as a delimiter for each row. This will be different from the input file but overall is easier to code.
-        for (auto x : currentLine){
-            if (x == ','){
+        for (int i = 0; i < currentLine.length() + 1; i++){
+            if (currentLine[i] == ',' || i == currentLine.length()){
                 currentLineVector.push_back(to_insert);
                 to_insert.clear();
                 continue;
             }
-            to_insert.push_back(x);
+            to_insert.push_back(currentLine[i]);
         }
         to_return.push_back(currentLineVector);
     }
