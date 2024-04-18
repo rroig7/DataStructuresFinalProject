@@ -44,16 +44,19 @@ std::vector<std::vector<std::string>> FileHandler::getRowsAsVector() {
         
         // Using "," as a delimiter for each row. This will be different from the input file but overall is easier to code.
         for (int i = 0; i < currentLine.length() + 1; i++){
+            // Checks if at a comma or at the end of the line.
             if (currentLine[i] == ',' || i == currentLine.length()){
                 currentLineVector.push_back(to_insert);
                 to_insert.clear();
                 continue;
             }
+            // Insert character into the string to get ready to push into the vector.
             to_insert.push_back(currentLine[i]);
         }
         to_return.push_back(currentLineVector);
     }
     
+    // Close file gracefully.
     inputFile.close();
     
     return to_return;
