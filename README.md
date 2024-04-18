@@ -61,3 +61,11 @@ actual names of the cities and states. The dataset contains 384 entries and incl
 The implementation of the team must be done using any data structures, and you cannot utilize any STL
 library (except for the vector class), to implement any data structures. You must implement the project
 as a team.
+
+### Sample Test Cases are in the PDF
+
+### Tentative Rubric:
+
+Report 20%\
+Presentation 10%\
+Implementing graph functionality correctly: 70%
