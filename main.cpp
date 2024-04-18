@@ -8,8 +8,8 @@
 int main(){
     
     FileHandler infile("../airports.csv");
-    
-    infile.getRowAsVector();
+
+    infile.getRowsAsVector();
     
     return 0;
 }

@@ -20,7 +20,7 @@ public:
 
     void setFilePath(const std::string &path);
     
-    std::vector<std::string> getRowAsVector();
+    std::vector<std::vector<std::string>> getRowsAsVector();
 
 private:
     std::string filePath;
