@@ -5,15 +5,20 @@
 #ifndef DATASTRUCTURESFINALPROJECT_DIRECTFLIGHT_H
 #define DATASTRUCTURESFINALPROJECT_DIRECTFLIGHT_H
 #include <string>
+class AirportNode;
 
-template<typename T>
 class DirectFlight {
 public:
-    T* name;
+    AirportNode* Port;
     int D_Weight;
     int C_Weight;
 
-    DirectFlight( T* Airport, int Distance, int Cost) {name = Airport; D_Weight = Distance; C_Weight = Cost;}
+    DirectFlight(AirportNode* Airport, int Distance, int Cost)
+    {
+        Port = Airport;
+        D_Weight = Distance;
+        C_Weight = Cost;
+    }
 };
 
 
