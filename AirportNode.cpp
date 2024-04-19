@@ -9,8 +9,9 @@ AirportNode::AirportNode(std::string Airport) {
 }
 
 void AirportNode::Add_Edge( AirportNode* OtherNode, int Distance, int Cost){
-    Edges.push_back(new DirectFlight<AirportNode*>(&OtherNode, Distance, Cost) );
+    Edges.push_back(new DirectFlight(OtherNode, Distance, Cost) );
 }
+
 
 void AirportNode::Print_Edges() {
     for(int i = 0; i < Edges.size(); i++){

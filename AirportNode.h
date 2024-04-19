@@ -8,6 +8,7 @@
 #include <vector>
 #include "iostream"
 #include "DirectFlight.h"
+
 class DirectFlight;
 
 using namespace std;

@@ -6,86 +6,10 @@
 #include "AirportNode.h"
 #include "DirectFlight.h"
 #include "iostream"
+#include "MiniHash.h"
 
 using namespace std;
-class MiniHashNode
-{
-public:
-    string Key;
-    AirportNode* Data;
 
-    MiniHashNode(string KEY,  AirportNode* DATA)
-    {
-        Key = KEY;
-        Data = DATA;
-    }
-
-};
-
-class MiniHash
-{
-public:
-    int capacity;
-    MiniHashNode* table[166];
-
-    MiniHash(int H_Capacity)
-    {
-        capacity = H_Capacity;
-        for(int i = 0; i < capacity; i++)
-        {
-            table[i] = nullptr;
-        }
-
-    }
-
-    bool insert(const string& Key, AirportNode* Value)
-    {
-        int totalASCII = 0;
-        for(char i : Key)
-        {
-            totalASCII += i;
-        }
-
-        int HashIndex = totalASCII % capacity;
-        if(table[HashIndex] == nullptr) {
-            table[HashIndex] = new MiniHashNode(Key, Value);
-            return true;
-        }
-
-        while(true)
-        {
-            if(table[HashIndex] == nullptr) {
-                table[HashIndex] = new MiniHashNode(Key, Value);
-                return true;
-            }
-            else
-            {
-                if(table[HashIndex]->Key == Key) {
-                    return false;
-                }
-                HashIndex = (HashIndex + 1) % capacity;
-            }
-        }
-
-    }
-
-    AirportNode* search(string Key)
-    {
-        int totalASCII = 0;
-        for(char i : Key)
-        {
-            totalASCII += i;
-        }
-        int HashIndex = totalASCII % capacity;
-
-        while(true) {
-            if (table[HashIndex]->Key == Key) {
-                return table[HashIndex]->Data;
-            }
-            HashIndex = (HashIndex + 1) % capacity;
-        }
-    }
-};
 
 int main(){
     
@@ -131,7 +55,7 @@ int main(){
 
     for(int j = 0; j < 2; j++) {
         for (vector<string> i: fileData) {
-            AirportNode *Node = new AirportNode(i[j]);
+            auto *Node = new AirportNode(i[j]);
             bool completion = T1.insert(i[j], Node);
             if (!completion) {
                 free(Node);
