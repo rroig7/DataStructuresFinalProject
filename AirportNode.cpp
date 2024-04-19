@@ -4,14 +4,17 @@
 
 #include "AirportNode.h"
 
-#include <utility>
-
-AirportNode::AirportNode(std::string Airport) {
-    name = std::move(Airport);
+AirportNode::AirportNode(std::string Airport) { 
+    name = Airport;
 }
 
 void AirportNode::Add_Edge( AirportNode* OtherNode, int Distance, int Cost){
     Edges.push_back(new DirectFlight<AirportNode*>(&OtherNode, Distance, Cost) );
 }
 
-
+void AirportNode::Print_Edges() {
+    for(int i = 0; i < Edges.size(); i++){
+        cout<< Edges[i]->Port->name<<" ";
+    }
+}
+  
