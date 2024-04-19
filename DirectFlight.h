@@ -8,17 +8,28 @@
 class AirportNode;
 
 class DirectFlight {
-public:
+private:
     AirportNode* Port;
+public:
+    AirportNode *getPort() const;
+
+    void setPort(AirportNode *port);
+
+    int getDWeight() const;
+
+    void setDWeight(int dWeight);
+
+    int getCWeight() const;
+
+    void setCWeight(int cWeight);
+
+private:
     int D_Weight;
     int C_Weight;
+    
+public:
+    DirectFlight(AirportNode* Airport, int Distance, int Cost);
 
-    DirectFlight(AirportNode* Airport, int Distance, int Cost)
-    {
-        Port = Airport;
-        D_Weight = Distance;
-        C_Weight = Cost;
-    }
 };
 
 

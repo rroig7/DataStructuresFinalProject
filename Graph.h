@@ -7,9 +7,14 @@
 #include "AirportNode.h"
 
 class Graph {
-    
+private:
     vector<AirportNode*> nodes;
-    
+public:
+    const vector<AirportNode *> &getNodes() const;
+
+    void setNodes(const vector<AirportNode *> &nodes);
+
+public:
     Graph();
     void Add_Airport(AirportNode* Airport);
     

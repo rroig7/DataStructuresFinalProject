@@ -15,7 +15,7 @@ void AirportNode::Add_Edge( AirportNode* OtherNode, int Distance, int Cost){
 
 void AirportNode::Print_Edges() {
     for(int i = 0; i < Edges.size(); i++){
-        cout<< Edges[i]->Port->name<<" ";
+        cout<< Edges[i]->getPort()->name<<" ";
     }
 }
   
