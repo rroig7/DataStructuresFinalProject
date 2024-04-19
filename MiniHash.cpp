@@ -60,3 +60,42 @@ AirportNode *MiniHash::search(string Key){
         HashIndex = (HashIndex + 1) % capacity;
     }
 }
+
+void MiniHash::setTable(std::vector<std::vector<std::string>> csvRows) {
+    for(int j = 0; j < 2; j++) {
+        for (vector<string> i: csvRows) {
+            auto *Node = new AirportNode(i[j]);
+            bool completion = insert(i[j], Node);
+            if (!completion) {
+                free(Node);
+            }
+        }
+    }
+
+    for(vector<string> i : csvRows)
+    {
+        search(i[0])->Add_Edge(search(i[1]), stoi(i[6]), stoi(i[7]));
+    }
+
+}
+
+void MiniHash::printTable() {
+    for(MiniHashNode* i : table)
+    {
+        cout<<"Airport:" << i->Key << " Edges:";
+        i->Data->Print_Edges();
+        cout<<endl;
+    }
+}
+
+int MiniHash::getCapacity() const {
+    return capacity;
+}
+
+void MiniHash::setCapacity(int capacity) {
+    MiniHash::capacity = capacity;
+}
+
+MiniHashNode *const *MiniHash::getTable() const {
+    return table;
+}
