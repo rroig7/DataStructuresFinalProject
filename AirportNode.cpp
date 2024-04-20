@@ -8,8 +8,19 @@ AirportNode::AirportNode(std::string Airport) {
     name = Airport;
 }
 
-void AirportNode::Add_Edge( AirportNode* OtherNode, int Distance, int Cost){
-    Edges.push_back(new DirectFlight(OtherNode, Distance, Cost) );
+AirportNode::AirportNode(AirportNode *Other) {
+    name = Other->name;
+    Edges = vector<DirectFlight*>(Other->Edges);
+    Prev_Ports = vector<DirectFlight*>(Other->Prev_Ports);
+}
+
+void AirportNode::Add_Port(AirportNode* OtherNode, int Distance, int Cost, bool direction){
+    if(direction) { 
+        Edges.push_back(new DirectFlight(OtherNode, Distance, Cost) );
+    }
+    else{
+        Prev_Ports.push_back(new DirectFlight(OtherNode, Distance, Cost) );
+    }
 }
 
 

@@ -17,9 +17,12 @@ int main(){
     vector< vector<string> > fileData = infile.getFileVector();
     
     Graph T1(166);
-    
+
     T1.setTable(fileData);
-    T1.printTable();
+    //T1.printTable();
+    Graph T2(T1);
+    T2.printTable();
+    
     
     return 0;
 }

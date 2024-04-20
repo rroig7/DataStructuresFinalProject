@@ -8,20 +8,20 @@
 GraphAlgorithms::GraphAlgorithms() {}
 
 void GraphAlgorithms::findShortestPath(AirportNode *targetNode, AirportNode *destinationNode ) {
-    Queue<AirportNode*> queue;
+    Queue<AirportNode*> Ports(100);
     int distance;
-    
+
     AirportNode *cur;
-    queue.enqueue(targetNode);
-    
+    Ports.enqueue(targetNode);
+
     while (cur != targetNode){
-        cur = queue.front();
-        
-        
+        cur = Ports.front();
+
+
     }
-    
-    
-    
+
+
+
 }
 
 Graph *GraphAlgorithms::getGraph() const {

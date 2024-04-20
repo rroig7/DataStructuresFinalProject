@@ -10,3 +10,8 @@ GraphNode::GraphNode(string KEY, AirportNode* DATA)
 Key = std::move(KEY);
 Data = DATA;
 }
+
+GraphNode::GraphNode(GraphNode *Other) {
+    Key = Other->Key;
+    Data = new AirportNode(Other->Data);
+}

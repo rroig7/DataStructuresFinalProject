@@ -16,6 +16,7 @@ class AirportNode {
 public:
     string name;
     vector<DirectFlight*> Edges;
+    vector<DirectFlight*> Prev_Ports;
 
     explicit AirportNode(string Airport);
     AirportNode(AirportNode* Other);
