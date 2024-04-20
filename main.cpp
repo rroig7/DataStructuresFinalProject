@@ -32,7 +32,7 @@ int main(){
 
     algos.setGraph(T1);
 
-    algos.findShortestPath("IAD", "MIA");
+    algos.SearchAlg("IAD", "MIA");
     
     //T1.printTable();
     Graph T2(T1);

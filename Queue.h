@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <string>
+#include "Tuple.h"
 
 
 template<typename T>

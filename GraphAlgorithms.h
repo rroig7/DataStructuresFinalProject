@@ -26,6 +26,8 @@ public:
 
     explicit GraphAlgorithms(Graph *graph);
 
+    Tuple<string, int> SearchAlg(string Start, string Target);
+
 };
 
 

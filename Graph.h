@@ -5,6 +5,7 @@
 #ifndef DATASTRUCTURESFINALPROJECT_GRAPH_H
 #define DATASTRUCTURESFINALPROJECT_GRAPH_H
 #include "GraphNode.h"
+#include "Tuple.cpp"
 
 class Graph
 {
@@ -35,6 +36,8 @@ public:
     void printTable();
     
     void unDirect(std::vector<std::vector<std::string>> csvRows);
+
+
     
 };
 
