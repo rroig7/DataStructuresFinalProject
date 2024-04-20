@@ -10,16 +10,16 @@ AirportNode::AirportNode(std::string Airport) {
 
 AirportNode::AirportNode(AirportNode *Other) {
     name = Other->name;
-    Edges = vector<DirectFlight*>(Other->Edges);
-    Prev_Ports = vector<DirectFlight*>(Other->Prev_Ports);
+    Edges = vector<Edge*>(Other->Edges);
+    Prev_Ports = vector<Edge*>(Other->Prev_Ports);
 }
 
 void AirportNode::Add_Port(AirportNode* OtherNode, int Distance, int Cost, bool direction){
     if(direction) { 
-        Edges.push_back(new DirectFlight(OtherNode, Distance, Cost) );
+        Edges.push_back(new Edge(OtherNode, Distance, Cost) );
     }
     else{
-        Prev_Ports.push_back(new DirectFlight(OtherNode, Distance, Cost) );
+        Prev_Ports.push_back(new Edge(OtherNode, Distance, Cost) );
     }
 }
 
@@ -29,4 +29,10 @@ void AirportNode::Print_Edges() {
         cout<< Edges[i]->getPort()->name<<" ";
     }
 }
+void AirportNode::print_PrevPorts(){
+    for(int i = 0; i < Prev_Ports.size(); i++){
+        cout<< Prev_Ports[i]->getPort()->name<<" ";
+    }
+}
+
   

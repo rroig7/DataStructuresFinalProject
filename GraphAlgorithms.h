@@ -17,11 +17,15 @@ public:
     void setGraph(Graph *graph);
 
 public:
-    void findShortestPath(AirportNode *targetNode, AirportNode *destinationNode );
+    void findShortestPath(const string &startingNode, const string &destinationNode );
 
 public:
     GraphAlgorithms();
     
+    GraphAlgorithms(Graph graph);
+
+    explicit GraphAlgorithms(Graph *graph);
+
 };
 
 

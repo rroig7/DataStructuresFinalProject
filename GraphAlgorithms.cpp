@@ -4,23 +4,31 @@
 
 #include "GraphAlgorithms.h"
 #include "Queue.cpp"
+#include <algorithm>
 
 GraphAlgorithms::GraphAlgorithms() {}
 
-void GraphAlgorithms::findShortestPath(AirportNode *targetNode, AirportNode *destinationNode ) {
-    Queue<AirportNode*> Ports(100);
+void GraphAlgorithms::findShortestPath(const string &startingNode, const string &destinationNode ) {
+    Queue<AirportNode*> queue(100);
+    vector<string> visited;
     int distance;
+    string pathTaken;
 
-    AirportNode *cur;
-    Ports.enqueue(targetNode);
-    Ports.dequeue();
+    AirportNode *cur = graph->search(startingNode);
+    queue.enqueue(cur);
 
-    while (cur != targetNode){
-        cur = Ports.front();
-
-
+    while (cur->name != destinationNode){
+        cur = queue.front();
+        visited.push_back(cur->name);
+        pathTaken.append(cur->name + "->");
+        
+        for (auto x: cur->Edges){
+            queue.enqueue(graph->search(x->getPort()->name));
+        }
+        queue.dequeue();
     }
     
+    return;
 }
 
 Graph *GraphAlgorithms::getGraph() const {
@@ -29,4 +37,7 @@ Graph *GraphAlgorithms::getGraph() const {
 
 void GraphAlgorithms::setGraph(Graph *graph) {
     GraphAlgorithms::graph = graph;
+}
+
+GraphAlgorithms::GraphAlgorithms(Graph *graph) : graph(graph) {
 }

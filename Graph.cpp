@@ -17,6 +17,7 @@ Graph::Graph(int H_Capacity){
 
 Graph::Graph(Graph *Other_Graph) {
     
+    capacity = Other_Graph->capacity;
     for(int i =0; i < capacity; i++)
     {
         table[i] = new GraphNode(Other_Graph->table[i]);
@@ -90,8 +91,11 @@ void Graph::setTable(std::vector<std::vector<std::string>> csvRows) {
 void Graph::printTable() {
     for(GraphNode* i : table)
     {
-        cout<<"Airport:" << i->Key << " Edges:";
+        cout<<"Airport:" << i->Key <<endl
+        << "    Edges:";
         i->Data->Print_Edges();
+        cout<<endl<<"    Prev_Ports:";
+        i->Data->print_PrevPorts();
         cout<<endl;
     }
 }
@@ -107,3 +111,15 @@ void Graph::setCapacity(int capacity) {
 GraphNode *const *Graph::getTable() const {
     return table;
 }
+
+void Graph::unDirect(std::vector<std::vector<std::string>> csvRows){
+    for(vector<string> i : csvRows)
+    {
+        AirportNode* key = search(i[0]);
+        int distance = stoi(i[6]);
+        int cost = stoi(i[7]);
+        
+        search(i[1])->Add_Port(key, distance, cost, false);
+    }
+}
+

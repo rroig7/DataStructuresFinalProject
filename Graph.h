@@ -34,6 +34,8 @@ public:
     
     void printTable();
     
+    void unDirect(std::vector<std::vector<std::string>> csvRows);
+    
 };
 
 
