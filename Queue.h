@@ -19,7 +19,7 @@ public:
     const T& front() const;
 
     void enqueue(const T& val);
-    T dequeue();
+    void dequeue();
 
     void print() const;
 
