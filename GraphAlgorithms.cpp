@@ -3,7 +3,7 @@
 //
 
 #include "GraphAlgorithms.h"
-#include "Queue.h"
+#include "Queue.cpp"
 
 GraphAlgorithms::GraphAlgorithms() {}
 
@@ -13,15 +13,14 @@ void GraphAlgorithms::findShortestPath(AirportNode *targetNode, AirportNode *des
 
     AirportNode *cur;
     Ports.enqueue(targetNode);
+    Ports.dequeue();
 
     while (cur != targetNode){
         cur = Ports.front();
 
 
     }
-
-
-
+    
 }
 
 Graph *GraphAlgorithms::getGraph() const {

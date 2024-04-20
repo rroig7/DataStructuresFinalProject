@@ -7,6 +7,7 @@
 #include "DirectFlight.h"
 #include "iostream"
 #include "Graph.h"
+#include "Queue.cpp"
 
 using namespace std;
 
@@ -17,6 +18,13 @@ int main(){
     vector< vector<string> > fileData = infile.getFileVector();
     
     Graph T1(166);
+    
+    Queue<int> test(50);
+    
+    for (int i = 0; i < 10; i++){
+        test.enqueue(i);
+    }
+    test.print();
 
     T1.setTable(fileData);
     //T1.printTable();
