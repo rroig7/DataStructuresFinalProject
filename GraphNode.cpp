@@ -5,6 +5,7 @@
 #include "GraphNode.h"
 
 
+
 GraphNode::GraphNode(string KEY, AirportNode* DATA)
 {
 Key = std::move(KEY);

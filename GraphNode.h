@@ -18,6 +18,7 @@ public:
 
     GraphNode(string KEY, AirportNode* DATA);
     GraphNode(GraphNode* Other);
+
 };
 
 
