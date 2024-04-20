@@ -6,7 +6,7 @@
 #include "AirportNode.h"
 #include "DirectFlight.h"
 #include "iostream"
-#include "MiniHash.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ int main(){
     FileHandler infile("../airports.csv");
     vector< vector<string> > fileData = infile.getFileVector();
     
-    MiniHash T1(166);
+    Graph T1(166);
     
     T1.setTable(fileData);
     T1.printTable();

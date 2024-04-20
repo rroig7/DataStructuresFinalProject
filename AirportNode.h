@@ -17,8 +17,9 @@ public:
     string name;
     vector<DirectFlight*> Edges;
 
-    AirportNode(string Airport);
-    void Add_Edge( AirportNode* OtherNode, int Distance, int Cost);
+    explicit AirportNode(string Airport);
+    AirportNode(AirportNode* Other);
+    void Add_Port(AirportNode* OtherNode, int Distance, int Cost, bool direction);
     void Print_Edges();
 
 
