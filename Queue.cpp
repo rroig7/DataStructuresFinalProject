@@ -61,7 +61,7 @@ void Queue<T>::enqueue(const T& val) {
 template<typename T>
 T Queue<T>::dequeue() {
     if(!empty()) {
-        return data[frnt];
+        return static_cast<AirportNode *>(data)[frnt];
         frnt = (frnt + 1) % capacity;
         queueSize--;
     }
