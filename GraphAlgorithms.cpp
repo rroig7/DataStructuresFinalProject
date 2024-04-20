@@ -65,6 +65,8 @@ Tuple<string, int> GraphAlgorithms::SearchAlg(string Start, string Target) {
         totals.setVal2(totals.getVal2() + Weights.front().getVal2());
 
 
+
+
         if(cur->name == Target){
             hasFound = true;
         }
