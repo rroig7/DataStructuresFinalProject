@@ -11,6 +11,8 @@
 class GraphAlgorithms{
 private:
     Graph* graph;
+
+    vector<Edge*> GetChildren(AirportNode* Node);
 public:
     Graph *getGraph() const;
 
@@ -26,7 +28,7 @@ public:
 
     explicit GraphAlgorithms(Graph *graph);
 
-    Tuple<string, int> SearchAlg(string Start, string Target);
+    void SearchAlg(string Start, string Target, int distance);
 
 };
 

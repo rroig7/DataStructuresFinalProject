@@ -20,19 +20,12 @@ int main(){
     
     Graph *T1 = new Graph(166);
     
-    Queue<int> test(50);
-    
-    for (int i = 0; i < 10; i++){
-        test.enqueue(i);
-    }
-    test.print();
-    
     GraphAlgorithms algos;
     T1->setTable(fileData);
 
     algos.setGraph(T1);
 
-    algos.SearchAlg("IAD", "MIA");
+    algos.SearchAlg("IAD", "MIA", 3);
     
     //T1.printTable();
     Graph T2(T1);

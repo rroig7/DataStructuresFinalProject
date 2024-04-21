@@ -43,96 +43,138 @@ void GraphAlgorithms::setGraph(Graph *graph) {
 GraphAlgorithms::GraphAlgorithms(Graph *graph) : graph(graph) {
 }
 
-Tuple<string, int> GraphAlgorithms::SearchAlg(string Start, string Target) {
-    vector< Tuple<string, Tuple<int, int>> > Paths;
-    bool hasFound;
-    string path;
-    Queue<int> nodesInNextLevel;
-    Queue<AirportNode*> queue;
-    Queue<Tuple<int, int>> Weights;
-    int curDistance;
-    Tuple<int, int> totals(0, 0);
+void GraphAlgorithms::SearchAlg(string Start, string Target, int distance) {
+
+    vector< Tuple<string, Tuple<int, int>> > OptimalPath;
+    Queue<AirportNode*> queue(100);
+    int numPrev = 0;
+    int numNext = 0;
+    int totalDistance = 0;
+
     AirportNode* cur = graph->search(Start);
-
     queue.enqueue(cur);
-    Weights.enqueue(totals);
+    OptimalPath.push_back(Tuple<string, Tuple<int, int>> (cur->name + ": NULL", Tuple<int, int>(0, 0) ) );
+    numPrev = cur->Edges.size();
 
-
-    while(!queue.empty()) {
-        cur = queue.front();
-        path += cur->name + "->";
-        totals.setVal1(totals.getVal1() + Weights.front().getVal1());
-        totals.setVal2(totals.getVal2() + Weights.front().getVal2());
-
-
-
-
-        if(cur->name == Target){
-            hasFound = true;
-        }
-
-        //If the Airport travels to other Airports, set the distance and change the path
-        if(cur->Edges.size())
+    int i = 0;
+    while(distance - totalDistance != 1)
+    {
+        //Grab and set the total cumlative cost at Cur
+        int CurWeight, CurCost;
+        for(auto k : OptimalPath)
         {
-            if(nodesInNextLevel.empty()){
-                curDistance = cur->Edges.size();
-            }
-            else
-            {
-                nodesInNextLevel.enqueue(curDistance);
-                curDistance = cur->Edges.size();
-                path += path += cur->name + "->";
+            if(cur->name == k.getVal1().substr(0, 3)){
+                CurWeight = k.getVal2().getVal1();
+                CurCost = k.getVal2().getVal2();
+                break;
             }
         }
 
-        // Enqueueing current node's edges in order of the least distance weight if we haven't found node
-        Edge* children[cur->Edges.size()];
-        if(!hasFound) {
+        //Get All Adjacent Nodes
+        vector<Edge*> OtherChildren = GetChildren(cur);
+        for(auto j : OtherChildren) {
+            //Enqueue Edges and increment numNext
+            queue.enqueue(j->getPort());
+            numNext += j->getPort()->Edges.size();
 
-            //Fill Children Array
-            int i = 0;
-            for (auto j: cur->Edges) {
-                children[i] = j;
-                i++;
-            }
+            //Set a Tuple of Weights
+            Tuple<int, int> Weights(j->getDWeight() + CurWeight, j->getCWeight() + CurCost);
+            bool Collision = false;
 
-            //Order Array By Least Distance
-            for(int j = 1; j < cur->Edges.size(); j++) {
-                for (i = 0; i < cur->Edges.size() - j; i++) {
-                    if (children[i]->getDWeight() > children[i + 1]->getDWeight()) {
-                        Edge *temp = children[i];
-                        children[i] = children[i + 1];
-                        children[i + 1] = temp;
+            //Look for any colissions, if so, compare.
+            //If the new onw is less optimal, do not replace it
+            for(auto k : OptimalPath)
+            {
+                string condition = k.getVal1().substr(0, 3);
+                if(j->getPort()->name == k.getVal1().substr(0, 3))
+                {
+                    Collision = true;
+                    if(Weights.getVal1() < k.getVal2().getVal1()){
+                        k.setVal1(j->getPort()->name + ": " + cur->name);
+                        k.setVal2(Weights);
+                        break;
                     }
                 }
             }
-
-            //Enqueue Edge Nodes and Weights
-            for(auto j : children)
-            {
-                queue.enqueue(graph->search(j->getPort()->name));
-                Weights.enqueue(Tuple<int, int>(j->getDWeight(), j->getCWeight()));
+            //If no collision, add to the vector of paths
+            if(!Collision) {
+                OptimalPath.push_back(Tuple<string, Tuple<int, int>>(j->getPort()->name + ": " + cur->name, Weights));
             }
+            numPrev--;
         }
         queue.dequeue();
-
-        //traversed all the other ports, remove it form the path
-        if(!curDistance) {
-            curDistance = nodesInNextLevel.front() - 1;
-            nodesInNextLevel.dequeue();
-            path.erase(path.length()-5);
-            Weights.dequeue();
-            totals.setVal1(totals.getVal1() - Weights.front().getVal1());
-            totals.setVal2(totals.getVal2() - Weights.front().getVal2());
+        cur = queue.front();
+        //If Completed total numbeer of children nodes at a certain distance
+        //Increment distance and restart counting
+        if(!numPrev)
+        {
+            numPrev = numNext;
+            numNext = 0;
+            totalDistance++;
         }
+    }
 
+    Tuple<string, Tuple<int, int>> TargetTuple;
+    vector<string> Path;
+
+    for(auto i : OptimalPath)
+    {
+        string condition = i.getVal1().substr(0, 3);
+        if(condition == Target)
+        {
+         TargetTuple = i;
+         break;
+        }
+    }
+
+    string Cur = TargetTuple.getVal1().substr(5);
+    Path.push_back(Target);
+    while(Cur != Start)
+    {
+        for(auto i : OptimalPath)
+        {
+            string condition = i.getVal1().substr(0, 3);
+            if(Cur == condition)
+            {
+                Path.insert(Path.begin(), Cur);
+                Cur = i.getVal1().substr(5);
+                break;
+            }
+        }
+    }
+    Path.insert(Path.begin(), Start);
+
+    cout<<"The shortest Path from " << Start << " to " << Target << " is: ";
+    for(auto i : Path)
+    {
+        cout<<i<<"->";
+    }
+    cout<<". The distance is " << TargetTuple.getVal2().getVal1() << ". The cost is " << TargetTuple.getVal2().getVal2()<<endl;
 }
 
+vector<Edge*> GraphAlgorithms::GetChildren(AirportNode *Node) {
+    Edge* children[Node->Edges.size()];
+    //Fill Children Array
+    int i = 0;
+    for (auto j: Node->Edges) {
+        children[i] = j;
+        i++;
+    }
 
-
-
-
-
-
-
+    //Order Array By Least Distance
+    for(int j = 1; j < Node->Edges.size(); j++) {
+        for (i = 0; i < Node->Edges.size() - j; i++) {
+            if (children[i]->getDWeight() > children[i + 1]->getDWeight()) {
+                Edge *temp = children[i];
+                children[i] = children[i + 1];
+                children[i + 1] = temp;
+            }
+        }
+    }
+    vector<Edge*> ReturnVector;
+    for(auto i : children)
+    {
+        ReturnVector.push_back(i);
+    }
+    return ReturnVector;
 }
