@@ -30,6 +30,9 @@ public:
 
     void SearchAlg(string Start, string Target, int distance);
 
+    void visitState(string Start, string State);
+
+
 };
 
 

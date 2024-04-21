@@ -32,7 +32,8 @@ int main(){
     Graph T2(T1);
     T2.unDirect(fileData);
     //T2.printTable();
-    
+
+    algos.visitState("IAD", "NY");
     
     return 0;
 }

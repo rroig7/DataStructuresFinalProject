@@ -258,3 +258,15 @@ vector<Edge*> GraphAlgorithms::GetChildren(AirportNode *Node) {
     }
     return ReturnVector;
 }
+
+void GraphAlgorithms::visitState(string Start, string State) {
+    vector<AirportNode*> All_Ports = graph->search_by_state(State);
+
+    for(auto i : All_Ports)
+    {
+        findShortestPath(Start, i->name);
+    }
+}
+
+
+

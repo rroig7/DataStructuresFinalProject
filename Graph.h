@@ -37,6 +37,8 @@ public:
     
     void unDirect(std::vector<std::vector<std::string>> csvRows);
 
+    vector<AirportNode*> search_by_state(string state);
+
 
     
 };
