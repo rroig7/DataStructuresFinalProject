@@ -25,7 +25,8 @@ int main(){
 
     algos.setGraph(T1);
 
-    algos.SearchAlg("IAD", "MIA", 2);
+    algos.findShortestPath("IAD", "MIA");
+    //algos.SearchAlg("MSP", "MIA", 2);
     
     //T1.printTable();
     Graph T2(T1);

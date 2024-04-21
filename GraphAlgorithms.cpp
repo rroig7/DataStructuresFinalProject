@@ -10,26 +10,103 @@ GraphAlgorithms::GraphAlgorithms() {}
 
 void GraphAlgorithms::findShortestPath(const string &startingNode, const string &destinationNode ) {
     Queue<AirportNode*> queue(100);
-    vector<vector<string>> paths;
     vector<string> visited;
-    int distance;
+    int distance = 0;
+    int numPrevLevel = 1;
+    int numNextLevel = 0;
+    bool hasFound = false;
     string pathTaken;
 
     AirportNode *cur = graph->search(startingNode);
     queue.enqueue(cur);
 
-    while (cur->name != destinationNode){
-        cur = queue.front();
-        visited.push_back(cur->name);
-        pathTaken.append(cur->name + "->");
-        
-        for (auto x: cur->Edges){
-            queue.enqueue(graph->search(x->getPort()->name));
+    while (numPrevLevel){
+        if(cur->name == destinationNode) {
+            hasFound = true;
         }
+
+        //Character Comparisons Because == was not working for some reason
+        bool THESAME = false;
+        for(const auto& x : visited)
+        {
+            int sameChar = 0;
+            int i = 0;
+            for(char y : x)
+            {
+                if(y == cur->name[i]) {
+                    sameChar++;
+                }
+                i++;
+            }
+            if(sameChar == x.length()) { THESAME = true; break;}
+        }
+
+        //If the same then dequeue current front and replace cur
+        if(THESAME) {
+            queue.dequeue();
+            cur = queue.front();
+            numPrevLevel--;
+            continue;
+        }
+
+        //Add our current node to the BFS path and increment number of nodes in the next distance
+        pathTaken.append(cur->name + "->");
+        numNextLevel += cur->Edges.size();
+
+        //If We found the node, stop enqueeing more nodes
+        if(!hasFound) {
+            for (auto x: cur->Edges) {
+                queue.enqueue(graph->search(x->getPort()->name));
+            }
+        }
+        //Add Current node to visited list and replace current node with front of queue
+        visited.push_back(cur->name);
         queue.dequeue();
+        if(!queue.empty()) {cur = queue.front(); }
+        numPrevLevel--;
+        //if exchaused all nodes on a currentl level, replace numlevel with nextlevel and increase the distance
+        //from the start
+        if(!numPrevLevel && !hasFound){
+            //pathTaken += '|';
+            numPrevLevel = numNextLevel;
+            numNextLevel = 0;
+            distance++;
+        }
     }
-    
-    return;
+
+    //cout<<distance<<endl;
+   // cout<<pathTaken<<endl;
+
+    vector<string> Ports;
+    int pos = 0;
+    while(pos < pathTaken.size())
+    {
+        pos = pathTaken.find("->");
+        Ports.push_back(pathTaken.substr(0, pos));
+        pathTaken.erase(0, pos+2);
+
+    }
+
+    bool CanReach = false;
+    for(auto i : Ports)
+    {
+        if(destinationNode == i)
+        {
+            CanReach = true;
+            break;
+        }
+    }
+
+    if(!CanReach)
+    {
+        cout<<"Cannot reach " << destinationNode << " from " << startingNode<<endl;
+    }
+    else
+    {
+        SearchAlg(startingNode, destinationNode, distance);
+    }
+
+
 }
 
 Graph *GraphAlgorithms::getGraph() const {
