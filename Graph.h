@@ -39,7 +39,9 @@ public:
 
     vector<AirportNode*> search_by_state(string state);
 
+    vector<AirportNode*> All_Inbound(string Target);
 
+    vector<string> All_Keys();
     
 };
 

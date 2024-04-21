@@ -136,5 +136,37 @@ void Graph::unDirect(std::vector<std::vector<std::string>> csvRows){
     }
 }
 
+vector<AirportNode *> Graph::All_Inbound(string Target) {
+    vector<AirportNode*> return_vector;
+
+    //Iterates through the table's data
+    for(auto i : table)
+    {
+        if(i->Data->name == Target) { continue; }
+
+        //Iterates through a Airport's Edge vector to see if the target is within the vector
+        for(auto j : i->Data->Edges)
+        {
+            if(j->getPort()->name == Target)
+            {
+                return_vector.push_back(i->Data);
+            }
+        }
+    }
+
+    return return_vector;
+}
+
+vector<string> Graph::All_Keys() {
+
+    vector<string> keys;
+    for(auto i : table)
+    {
+        keys.push_back(i->Key);
+    }
+
+    return keys;
+}
+
 
 

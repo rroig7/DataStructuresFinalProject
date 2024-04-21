@@ -268,5 +268,41 @@ void GraphAlgorithms::visitState(string Start, string State) {
     }
 }
 
+void GraphAlgorithms::Total_Connections() {
+    Tuple<string, int> All_Connections[166];
+
+    int j = 0;
+
+    //fills the table of all sums with their appropriate keys
+    for(auto i : graph->All_Keys())
+    {
+        int total = 0;
+        total += graph->search(i)->Edges.size();
+        total += graph->All_Inbound(i).size();
+        All_Connections[j] = Tuple<string, int>(i, total);
+        j++;
+    }
+
+    //Algorithm to sort array largest -> smalllest
+    for(int i = 1; i < 166; i++) {
+        for (j = 0; j < 166-i; j++) {
+
+            if(All_Connections[j].getVal2() < All_Connections[j+1].getVal2())
+            {
+                auto temp = All_Connections[j];
+                All_Connections[j] = All_Connections[j+1];
+                All_Connections[j+1] = temp;
+            }
+        }
+    }
+
+    //print out the result
+    for(auto i : All_Connections)
+    {
+        cout<< i.getVal1() << ": " << i.getVal2() << endl;
+    }
+
+}
+
 
 

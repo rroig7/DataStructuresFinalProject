@@ -32,6 +32,8 @@ public:
 
     void visitState(string Start, string State);
 
+    void Total_Connections();
+
 
 };
 
