@@ -57,7 +57,7 @@ void GraphAlgorithms::SearchAlg(string Start, string Target, int distance) {
     numPrev = cur->Edges.size();
 
     int i = 0;
-    while(distance - totalDistance != 1)
+    while(distance != totalDistance)
     {
         //Grab and set the total cumlative cost at Cur
         int CurWeight, CurCost;

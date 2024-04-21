@@ -25,7 +25,7 @@ int main(){
 
     algos.setGraph(T1);
 
-    algos.SearchAlg("IAD", "MIA", 3);
+    algos.SearchAlg("IAD", "MIA", 2);
     
     //T1.printTable();
     Graph T2(T1);
