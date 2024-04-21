@@ -17,6 +17,20 @@ void GraphAlgorithms::findShortestPath(const string &startingNode, const string 
     AirportNode *cur = graph->search(startingNode);
     queue.enqueue(cur);
 
+    while (cur->name != destinationNode){
+        cur = queue.front();
+        visited.push_back(cur->name);
+        pathTaken.append(cur->name + "->");
+        
+        for (auto x: cur->Edges){
+            queue.enqueue(graph->search(x->getPort()->name));
+        }
+        queue.dequeue();
+    }
+    
+    return;
+}
+
 Graph *GraphAlgorithms::getGraph() const {
     return graph;
 }
@@ -26,4 +40,4 @@ void GraphAlgorithms::setGraph(Graph *graph) {
 }
 
 GraphAlgorithms::GraphAlgorithms(Graph *graph) : graph(graph) {
-
+}

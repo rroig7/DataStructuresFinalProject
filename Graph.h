@@ -5,7 +5,6 @@
 #ifndef DATASTRUCTURESFINALPROJECT_GRAPH_H
 #define DATASTRUCTURESFINALPROJECT_GRAPH_H
 #include "GraphNode.h"
-#include "Tuple.cpp"
 
 class Graph
 {
@@ -36,12 +35,6 @@ public:
     void printTable();
     
     void unDirect(std::vector<std::vector<std::string>> csvRows);
-
-    vector<AirportNode*> search_by_state(string state);
-
-    vector<AirportNode*> All_Inbound(string Target);
-
-    vector<string> All_Keys();
     
 };
 

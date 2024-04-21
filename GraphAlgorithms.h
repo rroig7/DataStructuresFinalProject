@@ -25,6 +25,7 @@ public:
     GraphAlgorithms(Graph graph);
 
     explicit GraphAlgorithms(Graph *graph);
+
 };
 
 

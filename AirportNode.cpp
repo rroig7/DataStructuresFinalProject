@@ -4,10 +4,8 @@
 
 #include "AirportNode.h"
 
-AirportNode::AirportNode(std::string Airport, string Home_City, string Home_State) {
+AirportNode::AirportNode(std::string Airport) { 
     name = Airport;
-    city = Home_City;
-    state = Home_State;
 }
 
 AirportNode::AirportNode(AirportNode *Other) {
