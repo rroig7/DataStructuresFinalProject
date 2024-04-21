@@ -114,6 +114,7 @@ void GraphAlgorithms::SearchAlg(string Start, string Target, int distance) {
         }
     }
 
+    //Find the Tuple that has the Target
     Tuple<string, Tuple<int, int>> TargetTuple;
     vector<string> Path;
 
@@ -127,6 +128,7 @@ void GraphAlgorithms::SearchAlg(string Start, string Target, int distance) {
         }
     }
 
+    //Trace the path starting from the target and ending at the start node
     string Cur = TargetTuple.getVal1().substr(5);
     Path.push_back(Target);
     while(Cur != Start)
@@ -144,6 +146,7 @@ void GraphAlgorithms::SearchAlg(string Start, string Target, int distance) {
     }
     Path.insert(Path.begin(), Start);
 
+    //Print and celebrate
     cout<<"The shortest Path from " << Start << " to " << Target << " is: ";
     for(auto i : Path)
     {
