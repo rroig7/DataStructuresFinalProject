@@ -10,20 +10,17 @@ Graph::Graph(int H_Capacity){
     capacity = H_Capacity;
     for(int i = 0; i < capacity; i++)
     {
-        GraphNode Default = GraphNode("NULL", nullptr);
-        table.insert(table.begin() + i, Default);
+        table[i] = nullptr;
     }
 
 }
-
 
 Graph::Graph(Graph *Other_Graph) {
 
     capacity = Other_Graph->capacity;
     for(int i =0; i < capacity; i++)
     {
-        GraphNode Value = GraphNode(Other_Graph->table[i]);
-        table.insert(table.begin()+i, Value);
+        table[i] = new GraphNode(Other_Graph->table[i]);
     }
 }
 
@@ -35,22 +32,20 @@ bool Graph::insert(const string &Key, AirportNode *Value){
     }
 
     int HashIndex = totalASCII % capacity;
-    if(table[HashIndex].Key == "NULL") {
-        table[HashIndex].Key = Key;
-        table[HashIndex].Data = Value;
+    if(table[HashIndex] == nullptr) {
+        table[HashIndex] = new GraphNode(Key, Value);
         return true;
     }
 
     while(true)
     {
-        if(table[HashIndex].Key == "NULL") {
-            table[HashIndex].Key = Key;
-            table[HashIndex].Data = Value;
+        if(table[HashIndex] == nullptr) {
+            table[HashIndex] = new GraphNode(Key, Value);
             return true;
         }
         else
         {
-            if(table[HashIndex].Key == Key) {
+            if(table[HashIndex]->Key == Key) {
                 return false;
             }
             HashIndex = (HashIndex + 1) % capacity;
@@ -68,8 +63,8 @@ AirportNode *Graph::search(string Key){
     int HashIndex = totalASCII % capacity;
 
     while(true) {
-        if (table[HashIndex].Key == Key) {
-            return table[HashIndex].Data;
+        if (table[HashIndex]->Key == Key) {
+            return table[HashIndex]->Data;
         }
         HashIndex = (HashIndex + 1) % capacity;
     }
@@ -107,13 +102,13 @@ void Graph::setTable(std::vector<std::vector<std::string>> csvRows) {
 }
 
 void Graph::printTable() {
-    for(GraphNode i : table)
+    for(GraphNode* i : table)
     {
-        cout<<"Airport:" << i.Key <<endl
+        cout<<"Airport:" << i->Key <<endl
             << "    Edges:";
-        i.Data->Print_Edges();
+        i->Data->Print_Edges();
         cout<<endl<<"    Prev_Ports:";
-        i.Data->print_PrevPorts();
+        i->Data->print_PrevPorts();
         cout<<endl;
     }
 }
@@ -126,7 +121,7 @@ void Graph::setCapacity(int capacity) {
     Graph::capacity = capacity;
 }
 
-const vector<GraphNode> Graph::getTable() const {
+GraphNode *const *Graph::getTable() const {
     return table;
 }
 
