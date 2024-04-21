@@ -2,12 +2,12 @@
 // Created by danie on 4/17/2024.
 //
 
-#ifndef DATASTRUCTURESFINALPROJECT_DIRECTFLIGHT_H
-#define DATASTRUCTURESFINALPROJECT_DIRECTFLIGHT_H
+#ifndef DATASTRUCTURESFINALPROJECT_EDGE_H
+#define DATASTRUCTURESFINALPROJECT_EDGE_H
 #include <string>
 class AirportNode;
 
-class DirectFlight {
+class Edge {
 private:
     AirportNode* Port;
 public:
@@ -28,10 +28,10 @@ private:
     int C_Weight;
     
 public:
-    DirectFlight(AirportNode* Airport, int Distance, int Cost);
+    Edge(AirportNode* Airport, int Distance, int Cost);
 
 };
 
 
 
-#endif //DATASTRUCTURESFINALPROJECT_DIRECTFLIGHT_H
+#endif //DATASTRUCTURESFINALPROJECT_EDGE_H

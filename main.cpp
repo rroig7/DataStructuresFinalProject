@@ -4,9 +4,11 @@
 
 #include "FileHandler.h"
 #include "AirportNode.h"
-#include "DirectFlight.h"
+#include "Edge.h"
 #include "iostream"
-#include "MiniHash.h"
+#include "Graph.h"
+#include "Queue.cpp"
+#include "GraphAlgorithms.h"
 
 using namespace std;
 
@@ -16,10 +18,24 @@ int main(){
     FileHandler infile("../airports.csv");
     vector< vector<string> > fileData = infile.getFileVector();
     
-    MiniHash T1(166);
+    Graph *T1 = new Graph(166);
     
-    T1.setTable(fileData);
-    T1.printTable();
+    GraphAlgorithms algos;
+    T1->setTable(fileData);
+
+    algos.setGraph(T1);
+
+    //algos.findShortestPath("IAD", "MIA");
+    //algos.SearchAlg("MSP", "MIA", 2);
+    
+    //T1.printTable();
+    Graph T2(T1);
+    T2.unDirect(fileData);
+    //T2.printTable();
+
+    //algos.visitState("IAD", "NY");
+    algos.Total_Connections();
+    //T1->printTable();
     
     return 0;
 }

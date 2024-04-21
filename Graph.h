@@ -4,19 +4,44 @@
 
 #ifndef DATASTRUCTURESFINALPROJECT_GRAPH_H
 #define DATASTRUCTURESFINALPROJECT_GRAPH_H
-#include "AirportNode.h"
+#include "GraphNode.h"
+#include "Tuple.cpp"
 
-class Graph {
+class Graph
+{
 private:
-    vector<AirportNode*> nodes;
+    int capacity;
 public:
-    const vector<AirportNode *> &getNodes() const;
+    int getCapacity() const;
 
-    void setNodes(const vector<AirportNode *> &nodes);
+    void setCapacity(int capacity);
 
+    GraphNode *const *getTable() const;
+
+private:
+    GraphNode* table[166];
 public:
-    Graph();
-    void Add_Airport(AirportNode* Airport);
+
+
+    Graph(int H_Capacity);
+    
+    Graph(Graph* Other_Graph);
+    
+    bool insert(const string& Key, AirportNode* Value);
+
+    AirportNode* search(string Key);
+    
+    void setTable(std::vector<std::vector<std::string>> csvRows);
+    
+    void printTable();
+    
+    void unDirect(std::vector<std::vector<std::string>> csvRows);
+
+    vector<AirportNode*> search_by_state(string state);
+
+    vector<AirportNode*> All_Inbound(string Target);
+
+    vector<string> All_Keys();
     
 };
 
