@@ -11,8 +11,6 @@
 class GraphAlgorithms{
 private:
     Graph* graph;
-
-    vector<Edge*> GetChildren(AirportNode* Node);
 public:
     Graph *getGraph() const;
 
@@ -27,14 +25,6 @@ public:
     GraphAlgorithms(Graph graph);
 
     explicit GraphAlgorithms(Graph *graph);
-
-    void SearchAlg(string Start, string Target, int distance);
-
-    void visitState(string Start, string State);
-
-    void Total_Connections();
-
-
 };
 
 
