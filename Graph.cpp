@@ -70,10 +70,23 @@ AirportNode *Graph::search(string Key){
     }
 }
 
+vector<AirportNode*> Graph::search_by_state(string state){
+
+    vector<AirportNode*> return_vector;
+    for(auto i : table)
+    {
+        if(i->Data->state == state){
+            return_vector.push_back(i->Data);
+        }
+    }
+
+    return return_vector;
+}
+
 void Graph::setTable(std::vector<std::vector<std::string>> csvRows) {
     for(int j = 0; j < 2; j++) {
         for (vector<string> i: csvRows) {
-            auto *Node = new AirportNode(i[j]);
+            auto *Node = new AirportNode(i[j], i[2], i[3]);
             bool completion = insert(i[j], Node);
             if (!completion) {
                 free(Node);
@@ -122,4 +135,38 @@ void Graph::unDirect(std::vector<std::vector<std::string>> csvRows){
         search(i[1])->Add_Port(key, distance, cost, false);
     }
 }
+
+vector<AirportNode *> Graph::All_Inbound(string Target) {
+    vector<AirportNode*> return_vector;
+
+    //Iterates through the table's data
+    for(auto i : table)
+    {
+        if(i->Data->name == Target) { continue; }
+
+        //Iterates through a Airport's Edge vector to see if the target is within the vector
+        for(auto j : i->Data->Edges)
+        {
+            if(j->getPort()->name == Target)
+            {
+                return_vector.push_back(i->Data);
+            }
+        }
+    }
+
+    return return_vector;
+}
+
+vector<string> Graph::All_Keys() {
+
+    vector<string> keys;
+    for(auto i : table)
+    {
+        keys.push_back(i->Key);
+    }
+
+    return keys;
+}
+
+
 

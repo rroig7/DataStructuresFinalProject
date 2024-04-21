@@ -15,10 +15,12 @@ using namespace std;
 class AirportNode {
 public:
     string name;
+    string city;
+    string state;
     vector<Edge*> Edges;
     vector<Edge*> Prev_Ports;
 
-    explicit AirportNode(string Airport);
+    explicit AirportNode(string Airport, string Home_City, string Home_State);
     AirportNode(AirportNode* Other);
     void Add_Port(AirportNode* OtherNode, int Distance, int Cost, bool direction);
     void Print_Edges();
