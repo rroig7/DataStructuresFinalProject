@@ -6,6 +6,7 @@
 #define DATASTRUCTURESFINALPROJECT_GRAPH_H
 #include "GraphNode.h"
 #include "Tuple.cpp"
+#include "AirportNode.h"
 
 class Graph
 {
@@ -42,7 +43,14 @@ public:
     vector<AirportNode*> All_Inbound(string Target);
 
     vector<string> All_Keys();
-    
+
+    AirportNode* getNode(const std::string& nodeName);
+
+
+    void addEdge(const string& origin, const string& destination, int distance, int cost);
+
+    void addVertex(const string& vertexName);
+
 };
 
 

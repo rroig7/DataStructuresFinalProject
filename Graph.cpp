@@ -3,6 +3,7 @@
 //
 
 #include "Graph.h"
+#include "AirportNode.h"
 #include <iostream>
 
 
@@ -166,6 +167,33 @@ vector<string> Graph::All_Keys() {
     }
 
     return keys;
+}
+
+AirportNode* Graph::getNode(const string& nodeName) {
+    for (AirportNode* node : vertices) {
+        if (node->getName() == nodeName) {
+            return node;
+        }
+    }
+    return nullptr; // Node not found
+}
+
+void Graph::addEdge(const string& origin, const string& destination, int distance, int cost) {
+    //Adds a directed edge starting from the origin to the destination and includes
+    //the distance and cost
+    AirportNode* orgNode = getNode(origin);
+    AirportNode* destNode = getNode(destination);
+    if (orgNode && destNode) {
+        orgNode->addEdge(destNode, distance, cost);
+    }
+}
+
+void Graph::addVertex(const string& vertexName) {
+    //Adds a vertex to the graph if it doesn't already exist
+    if (!contains(vertexName)) {
+        AirportNode* newNode = new AirportNode(vertexName);
+        vertices.push_back(newNode);
+    }
 }
 
 

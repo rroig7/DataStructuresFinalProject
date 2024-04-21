@@ -25,7 +25,7 @@ public:
     void Add_Port(AirportNode* OtherNode, int Distance, int Cost, bool direction);
     void Print_Edges();
     void print_PrevPorts();
-
+    const std::string& getName() const;
 
 };
 

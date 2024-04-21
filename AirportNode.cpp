@@ -37,4 +37,6 @@ void AirportNode::print_PrevPorts(){
     }
 }
 
-  
+const std::string& AirportNode::getName() const {
+    return name;  // Returns the name of the airport node
+}
