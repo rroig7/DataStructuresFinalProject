@@ -6,6 +6,7 @@
 #define DATASTRUCTURESFINALPROJECT_GRAPH_H
 #include "GraphNode.h"
 #include "Tuple.cpp"
+#include "TripleTuple.h"
 
 class Graph
 {
@@ -42,6 +43,12 @@ public:
     vector<AirportNode*> All_Inbound(string Target);
 
     vector<string> All_Keys();
+    
+    vector<Tuple<AirportNode*, AirportNode*>> getAllEdgesAsPairs();
+
+    vector<TripleTuple<AirportNode*, AirportNode*, int>> getAllEdgesAsPairsWithCost();
+
+    int searchForIndex(string Key);
     
 };
 

@@ -5,8 +5,10 @@
 #include "GraphAlgorithms.h"
 #include "Queue.cpp"
 #include <algorithm>
+#include "TripleTuple.cpp"
 
 GraphAlgorithms::GraphAlgorithms() {}
+
 
 void GraphAlgorithms::findShortestPath(const string &startingNode, const string &destinationNode ) {
     Queue<AirportNode*> queue(100);
@@ -62,7 +64,9 @@ void GraphAlgorithms::findShortestPath(const string &startingNode, const string 
         //Add Current node to visited list and replace current node with front of queue
         visited.push_back(cur->name);
         queue.dequeue();
-        if(!queue.empty()) {cur = queue.front(); }
+        if(!queue.empty()) {
+            cur = queue.front();
+        }
         numPrevLevel--;
         //if exchaused all nodes on a currentl level, replace numlevel with nextlevel and increase the distance
         //from the start
@@ -304,5 +308,121 @@ void GraphAlgorithms::Total_Connections() {
 
 }
 
+GraphAlgorithms::GraphAlgorithms(Graph graph) {
+    
+}
 
 
+// Helper function
+bool sortbyth(const TripleTuple<AirportNode*, AirportNode*, int>& a,
+              const TripleTuple<AirportNode*, AirportNode*, int>& b)
+{
+    return (a.getVal3() < b.getVal3());
+}
+
+
+// Problem 8 Done
+int GraphAlgorithms::minSpanningTree_Kruskal() {
+
+    vector<AirportNode*> vertices;
+    vector<TripleTuple<AirportNode*, AirportNode*, int>> allEdges = graph->getAllEdgesAsPairsWithCost();
+
+    int mst_wt = 0;
+    // Sorts the edges by weight
+    std::sort(allEdges.begin(), allEdges.end(),sortbyth);
+
+    // Fill the vertices vector with all the vertices in the graph. 
+    for (auto x : graph->All_Keys()){
+        vertices.push_back(graph->search(x));
+    }
+
+    // Create a vector to store the vertices included in the MST
+    vector<AirportNode*> mst_vertices;
+    cout << "Minimal Spanning Tree:" << endl << "Edge:            Weight:" << endl;
+    // Iterate through all the edges in the graph
+    for (auto e : allEdges){
+
+        // Get the vertices of the edge
+        AirportNode* u = e.getVal1();
+        AirportNode* v = e.getVal2();
+
+
+        
+        // Check if the vertices of the edge are already included in the MST
+        if (std::find(mst_vertices.begin(), mst_vertices.end(), u) == mst_vertices.end() ||
+            std::find(mst_vertices.begin(), mst_vertices.end(), v) == mst_vertices.end()) {
+
+            // If they are not, add the edge to the MST and add the weight of the edge to the mst_wt
+            cout << u->name << " - " << v->name << "        " << e.getVal3() << endl;
+            
+            mst_wt += e.getVal3();
+
+            // Add the vertices to the MST vertices
+            mst_vertices.push_back(u);
+            mst_vertices.push_back(v);
+        }
+    }
+    
+    cout << "Total weight of the MST: " << mst_wt << endl;
+    
+    return mst_wt;
+}
+
+struct PrimNode {
+    AirportNode* vertex;
+    int key;
+    PrimNode* parent;
+};
+
+
+// FIXME: fix prims algo, it is not working, it is printing every edge in the graph instead of the MST.
+int GraphAlgorithms::minSpanningTree_Prim() {
+    
+    vector<AirportNode *> vertices;
+    // Fill the vertices vector with all the vertices in the graph. 
+    for (auto x: graph->All_Keys()) {
+        vertices.push_back(graph->search(x));
+    }
+    // Create a vector to store the vertices included in the MST
+
+    vector<TripleTuple<AirportNode *, AirportNode *, int>> allEdges = graph->getAllEdgesAsPairsWithCost();
+    std::sort(allEdges.begin(), allEdges.end(), sortbyth);
+
+    vector<Tuple<AirportNode *, int>> keyVector;
+
+    // Fill the keyVector vector with the vertices and their respective keys
+    for (int i = 0; i < vertices.size(); i++) {
+        if (i == 0) {
+            keyVector.emplace_back(vertices[i], 0);
+        } else {
+            keyVector.emplace_back(vertices[i], INT_MAX);
+        }
+    }
+
+    vector<string> mstVertices;
+
+    // Iterate through all the vertices in the graph
+    for (int count = 0; count < vertices.size(); count++) {
+        AirportNode *u = keyVector[count].getVal1();
+
+        // If the vertex is not in the MST
+        if (std::find(mstVertices.begin(), mstVertices.end(), u->name) == mstVertices.end()) {
+
+
+            // Update the key value of all adjacent vertices of u. To do this, iterate through all the edges of u
+            for (auto v: u->Edges) {
+
+                // For every adjacent vertex v, if the weight of the edge u-v is less than the key value of v, 
+                // update the key value of v as the weight of the edge u-v
+                if (v->getCWeight() < keyVector[graph->searchForIndex(v->getPort()->name)].getVal2()) {
+                    keyVector[graph->searchForIndex(v->getPort()->name)].setVal2(v->getCWeight());
+                }
+
+                cout << u->name << " - " << v->getPort()->name << "        " << v->getCWeight() << endl;
+            }
+            mstVertices.push_back(u->name);
+        }
+    }
+    
+    return 0;
+}

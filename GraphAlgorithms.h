@@ -34,6 +34,9 @@ public:
 
     void Total_Connections();
 
+    int minSpanningTree_Kruskal();
+    
+    int minSpanningTree_Prim();
 
 };
 

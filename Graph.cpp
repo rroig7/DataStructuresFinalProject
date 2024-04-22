@@ -4,7 +4,7 @@
 
 #include "Graph.h"
 #include <iostream>
-
+#include "TripleTuple.cpp"
 
 Graph::Graph(int H_Capacity){
     capacity = H_Capacity;
@@ -54,6 +54,11 @@ bool Graph::insert(const string &Key, AirportNode *Value){
 
 }
 
+
+/**
+ * 
+ * @returns an AirportNode object with the specified key string.
+ * */
 AirportNode *Graph::search(string Key){
     int totalASCII = 0;
     for(char i : Key)
@@ -65,6 +70,22 @@ AirportNode *Graph::search(string Key){
     while(true) {
         if (table[HashIndex]->Key == Key) {
             return table[HashIndex]->Data;
+        }
+        HashIndex = (HashIndex + 1) % capacity;
+    }
+}
+
+int Graph::searchForIndex(string Key){
+    int totalASCII = 0;
+    for(char i : Key)
+    {
+        totalASCII += i;
+    }
+    int HashIndex = totalASCII % capacity;
+
+    while(true) {
+        if (table[HashIndex]->Key == Key) {
+            return HashIndex;
         }
         HashIndex = (HashIndex + 1) % capacity;
     }
@@ -166,6 +187,59 @@ vector<string> Graph::All_Keys() {
     }
 
     return keys;
+}
+
+
+/**
+ * @return a vector of pairs of AirportNodes with all edges in the graph.
+ * */
+vector<Tuple<AirportNode *, AirportNode *>> Graph::getAllEdgesAsPairs() {
+    
+    // get a vector of all keys in graph
+    vector<string> allKeys = All_Keys();
+
+    
+    vector<Tuple<AirportNode *, AirportNode *>> to_return;
+
+    // Create Pairs with all airports and edges 
+    for (auto x : allKeys){
+        Tuple<AirportNode *, AirportNode *> curPair;
+        
+        curPair.setVal1(search(x));
+        for (auto e : search(x)->Edges){
+            curPair.setVal2(e->getPort());
+            to_return.push_back(curPair);
+        }
+    }
+    
+    return to_return;
+}
+/**
+ * @return a vector of pairs of Pairs AirportNodes with all edges in the graph including cost. 
+ * For example, one return could be ((airport1, airport2), cost)
+ * */
+vector<TripleTuple<AirportNode*, AirportNode*, int>> Graph::getAllEdgesAsPairsWithCost() {
+    
+    // get a vector of all keys in graph
+    vector<string> allKeys = All_Keys();
+
+
+    vector<TripleTuple<AirportNode*, AirportNode*, int>> to_return;
+
+    // Create Pairs with all airports and edges 
+    for (auto x : allKeys){
+        TripleTuple<AirportNode*, AirportNode*, int> curPair(nullptr, nullptr, 0);
+        
+        // Set first 
+        curPair.setVal1(search(x));
+        for (auto e : search(x)->Edges){
+            curPair.setVal2(e->getPort());
+            curPair.setVal3(e->getCWeight());
+            to_return.push_back(curPair);
+        }
+    }
+    
+    return to_return;
 }
 
 

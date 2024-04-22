@@ -11,11 +11,11 @@ private:
     T val1;
     V val2;
 public:
-    T getVal1() const;
+    T getVal1();
 
     void setVal1(T val1);
 
-    V getVal2() const;
+    V getVal2();
 
     void setVal2(V val2);
 

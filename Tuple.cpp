@@ -17,7 +17,7 @@ Tuple<T, V>::Tuple() {}
 
 
 template<typename T, typename V>
-T Tuple<T, V>::getVal1() const {
+T Tuple<T, V>::getVal1() {
     return val1;
 }
 
@@ -27,7 +27,7 @@ void Tuple<T, V>::setVal1(T val1) {
 }
 
 template<typename T, typename V>
-V Tuple<T, V>::getVal2() const {
+V Tuple<T, V>::getVal2(){
     return val2;
 }
 
