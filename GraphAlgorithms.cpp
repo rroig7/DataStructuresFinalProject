@@ -381,7 +381,10 @@ int GraphAlgorithms::minSpanningTree_Prim() {
 
     std::sort(allEdges.begin(), allEdges.end(),sortbyth);
 
+    // Creating mstVerticies vector to track current verticies in the MST
     vector<AirportNode*> mstVertices;
+    
+    // Push the first vertice in the verticies vector into mstVerticies (The node pushed in doesn't matter as it is arbitrary
     mstVertices.push_back(verticies[0]);
     vector<TripleTuple<AirportNode*, AirportNode*, int>> toCheck;
 
@@ -391,20 +394,34 @@ int GraphAlgorithms::minSpanningTree_Prim() {
 
     // Should add all the edges of all mstVerticies into a temp vector for checking each edge to find the smallest one.
     for (auto v : verticies){
-
+        
+        // If the current vertice already exists in the mstVerticies vector, then skip this code block.
         if (std::find(mstVertices.begin(), mstVertices.end(), v) == mstVertices.end()){
             string origin = v->name;
-
+            
+            
+            
             // Fills toCheck vector with all edges of the current mstVerticies.
             for (auto e : allEdges){
                 if (origin == e.getVal1()->name){
                     toCheck.push_back(e);
                 }
             }
+//            
+//            for (auto x : mstVertices){
+//                for (auto e: allEdges){
+//                    if (x->name == e.getVal1()->name){
+//                        toCheck.push_back(e);
+//                    }
+//                }
+//            }
+
             // Sort toCheck to get the smallest edge value in first position.
             std::sort(toCheck.begin(), toCheck.end(),sortbyth);
 
             // Get the smallest edge in the current mstVertices and push the node it leads to into mstVerticies.
+            
+            origin = toCheck[0].getVal1()->name;
             AirportNode* smallestEdge = toCheck[0].getVal2();
             int smallestEdgeCost = toCheck[0].getVal3();
             mstVertices.push_back(smallestEdge);
