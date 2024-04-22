@@ -20,6 +20,8 @@ public:
 
 private:
     GraphNode* table[166];
+
+    vector<Edge*> Sort(vector<Edge*> List);
 public:
 
 
@@ -35,13 +37,15 @@ public:
     
     void printTable();
     
-    void unDirect(std::vector<std::vector<std::string>> csvRows);
+    void unDirect();
 
     vector<AirportNode*> search_by_state(string state);
 
     vector<AirportNode*> All_Inbound(string Target);
 
     vector<string> All_Keys();
+
+    void PrimAlg();
     
 };
 

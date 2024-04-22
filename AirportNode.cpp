@@ -12,8 +12,24 @@ AirportNode::AirportNode(std::string Airport, string Home_City, string Home_Stat
 
 AirportNode::AirportNode(AirportNode *Other) {
     name = Other->name;
-    Edges = vector<Edge*>(Other->Edges);
-    Prev_Ports = vector<Edge*>(Other->Prev_Ports);
+    city = Other->city;
+    state = Other->state;
+
+    for(auto & i : Other->Edges)
+    {
+        auto port = i->getPort();
+        auto distance = i->getDWeight();
+        auto cost = i->getCWeight();
+        Edges.push_back( new Edge(port, distance, cost));
+    }
+
+    for(auto i : Other->Prev_Ports)
+    {
+        auto port = i->getPort();
+        auto distance = i->getDWeight();
+        auto cost = i->getDWeight();
+        Prev_Ports.push_back(new Edge(port, distance, cost));
+    }
 }
 
 void AirportNode::Add_Port(AirportNode* OtherNode, int Distance, int Cost, bool direction){

@@ -86,7 +86,7 @@ vector<AirportNode*> Graph::search_by_state(string state){
 void Graph::setTable(std::vector<std::vector<std::string>> csvRows) {
     for(int j = 0; j < 2; j++) {
         for (vector<string> i: csvRows) {
-            auto *Node = new AirportNode(i[j], i[2], i[3]);
+            auto *Node = new AirportNode(i[j], i[2+(j*2)], i[3 + (j * 2)]);
             bool completion = insert(i[j], Node);
             if (!completion) {
                 free(Node);
@@ -125,14 +125,25 @@ GraphNode *const *Graph::getTable() const {
     return table;
 }
 
-void Graph::unDirect(std::vector<std::vector<std::string>> csvRows){
-    for(vector<string> i : csvRows)
-    {
-        AirportNode* key = search(i[0]);
-        int distance = stoi(i[6]);
-        int cost = stoi(i[7]);
+void Graph::unDirect() {
+//    for(vector<string> i : csvRows) {
+//        AirportNode *key = search(i[0]);
+//        int distance = stoi(i[6]);
+//        int cost = stoi(i[7]);
+//
+//        search(i[1])->Add_Port(key, distance, cost, false);
+//    }
 
-        search(i[1])->Add_Port(key, distance, cost, false);
+    for (int o = 0; o < 1; o++) {
+        for (auto i: table) {
+            for (auto j: table) {
+                for (auto k: j->Data->Edges) {
+                    if (i->Data->name == k->getPort()->name) {
+                        i->Data->Add_Port(j->Data, k->getDWeight(), k->getCWeight(), false);
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -169,4 +180,22 @@ vector<string> Graph::All_Keys() {
 }
 
 
+void Graph::PrimAlg() {
+   
+}
+
+vector<Edge *> Graph::Sort(vector<Edge*> List) {
+
+    for (int i = 1; i < List.size(); i++) {
+        for (int j = 0; j < List.size() - i; j++) {
+            if (List[j]->getCWeight() > List[j + 1]->getCWeight()) {
+                auto temp = List[j];
+                List[j] = List[j + 1];
+                List[j + 1] = temp;
+            }
+        }
+    }
+
+    return List;
+}
 
