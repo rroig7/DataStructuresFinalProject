@@ -63,7 +63,7 @@ int main(){
     
     // Problem 8 Done
     cout << "Problem 8" << endl;
-    algosTwo.minSpanningTree_Kruskal();
+//    algosTwo.minSpanningTree_Kruskal();
     
     
 

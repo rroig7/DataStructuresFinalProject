@@ -368,61 +368,60 @@ int GraphAlgorithms::minSpanningTree_Kruskal() {
     return mst_wt;
 }
 
-struct PrimNode {
-    AirportNode* vertex;
-    int key;
-    PrimNode* parent;
-};
-
-
-// FIXME: fix prims algo, it is not working, it is printing every edge in the graph instead of the MST.
+// Problem 7 Done
 int GraphAlgorithms::minSpanningTree_Prim() {
     
-    vector<AirportNode *> vertices;
-    // Fill the vertices vector with all the vertices in the graph. 
-    for (auto x: graph->All_Keys()) {
-        vertices.push_back(graph->search(x));
+    // Put all verticies into a vector
+    vector<AirportNode*> verticies;
+    for (auto v: graph->All_Keys()){
+        verticies.push_back(graph->search(v));
     }
-    // Create a vector to store the vertices included in the MST
+    
+    vector<TripleTuple<AirportNode*, AirportNode*, int>> allEdges = graph->getAllEdgesAsPairsWithCost();
 
-    vector<TripleTuple<AirportNode *, AirportNode *, int>> allEdges = graph->getAllEdgesAsPairsWithCost();
-    std::sort(allEdges.begin(), allEdges.end(), sortbyth);
+    std::sort(allEdges.begin(), allEdges.end(),sortbyth);
 
-    vector<Tuple<AirportNode *, int>> keyVector;
+    vector<AirportNode*> mstVertices;
+    mstVertices.push_back(verticies[0]);
+    vector<TripleTuple<AirportNode*, AirportNode*, int>> toCheck;
 
-    // Fill the keyVector vector with the vertices and their respective keys
-    for (int i = 0; i < vertices.size(); i++) {
-        if (i == 0) {
-            keyVector.emplace_back(vertices[i], 0);
-        } else {
-            keyVector.emplace_back(vertices[i], INT_MAX);
-        }
-    }
+    //TESTING
+    int totalMstCost = 0;
+    int totalEdges = 0;
 
-    vector<string> mstVertices;
+    // Should add all the edges of all mstVerticies into a temp vector for checking each edge to find the smallest one.
+    for (auto v : verticies){
 
-    // Iterate through all the vertices in the graph
-    for (int count = 0; count < vertices.size(); count++) {
-        AirportNode *u = keyVector[count].getVal1();
+        if (std::find(mstVertices.begin(), mstVertices.end(), v) == mstVertices.end()){
+            string origin = v->name;
 
-        // If the vertex is not in the MST
-        if (std::find(mstVertices.begin(), mstVertices.end(), u->name) == mstVertices.end()) {
-
-
-            // Update the key value of all adjacent vertices of u. To do this, iterate through all the edges of u
-            for (auto v: u->Edges) {
-
-                // For every adjacent vertex v, if the weight of the edge u-v is less than the key value of v, 
-                // update the key value of v as the weight of the edge u-v
-                if (v->getCWeight() < keyVector[graph->searchForIndex(v->getPort()->name)].getVal2()) {
-                    keyVector[graph->searchForIndex(v->getPort()->name)].setVal2(v->getCWeight());
+            // Fills toCheck vector with all edges of the current mstVerticies.
+            for (auto e : allEdges){
+                if (origin == e.getVal1()->name){
+                    toCheck.push_back(e);
                 }
-
-                cout << u->name << " - " << v->getPort()->name << "        " << v->getCWeight() << endl;
             }
-            mstVertices.push_back(u->name);
+            // Sort toCheck to get the smallest edge value in first position.
+            std::sort(toCheck.begin(), toCheck.end(),sortbyth);
+
+            // Get the smallest edge in the current mstVertices and push the node it leads to into mstVerticies.
+            AirportNode* smallestEdge = toCheck[0].getVal2();
+            int smallestEdgeCost = toCheck[0].getVal3();
+            mstVertices.push_back(smallestEdge);
+
+            // Print out origin airport name, destination airport name, and cost of the edge between them.
+            cout << origin << " - " << smallestEdge->name << " " << smallestEdgeCost << endl;
+            
+            totalMstCost += smallestEdgeCost;
+            totalEdges++;
+
+            // Clear toCheck vector to prevent double-checking.
+            toCheck.clear();
         }
     }
     
+    cout << "Verticies: "<< mstVertices.size() << endl;
+    cout << "Edges: "<< totalEdges << endl;
+    cout << "Total Cost: " << totalMstCost << endl;
     return 0;
 }
