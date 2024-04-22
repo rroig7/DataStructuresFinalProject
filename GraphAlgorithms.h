@@ -13,26 +13,29 @@ private:
     Graph* graph;
 
     vector<Edge*> GetChildren(AirportNode* Node);
+
+    void SearchAlg(string Start, string Target, int distance);
+
+    vector< Tuple<string, Tuple<int, int>> > DFS(string Start, string Target, int N);
+
 public:
     Graph *getGraph() const;
 
     void setGraph(Graph *graph);
 
-public:
     void findShortestPath(const string &startingNode, const string &destinationNode );
 
-public:
     GraphAlgorithms();
     
     GraphAlgorithms(Graph graph);
 
     explicit GraphAlgorithms(Graph *graph);
 
-    void SearchAlg(string Start, string Target, int distance);
-
     void visitState(string Start, string State);
 
     void Total_Connections();
+
+    void DFS_nAway(string Start, string Target, int N);
 
 
 };

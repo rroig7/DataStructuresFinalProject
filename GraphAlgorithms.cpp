@@ -304,5 +304,114 @@ void GraphAlgorithms::Total_Connections() {
 
 }
 
+/*
+ *
+ *  DFS OneWay?
+ *  Return the Finished Aiprort
+ *  Hold All the Finished Airports in a outside vector
+ *
+ *  DFS calles DFS repeatedly to fill the finished vector
+ *  ifDFS_nAway returns the start node after a call, then algorithm is finished
+ */
+
+
+
+
+vector< Tuple<string, Tuple<int, int>> > GraphAlgorithms::DFS(string Start, string Target, int N) {
+    // Creating cur node from the starting airport
+    AirportNode* Cur = graph->search(Start);
+    bool Return_Self = false;
+    static vector< Tuple<string, Tuple<int, int>> >Path(N+1, Tuple<string, Tuple<int, int>>("\0", Tuple<int, int>(0, 0)));
+    static vector<string> visiting;
+
+    visiting.push_back(Cur->name);
+    if(N) {
+        //Iterate through the edges
+        for(auto i : Cur->Edges)
+        {
+            //Skips any port we're already visiting
+            bool visited = false;
+            for(auto j : visiting)
+            {
+                if(j == i->getPort()->name || j == Target)
+                {
+                    visited = true;
+                    break;
+                }
+            }
+            if(visited) { continue; }
+
+            auto Returned = DFS(i->getPort()->name, Target, N-1);
+
+            //if returned has a value, then this part of the path to the Target Node
+            if(!Returned.empty())
+            {
+                auto To_Insert = Tuple<string, Tuple<int, int>>(i->getPort()->name + ": " + Cur->name, Tuple<int, int>(i->getDWeight(), i->getCWeight()));
+
+                //If that already has a value, compare, place the one with the least distance within the vector
+                if(Path[N].getVal1() != "\0")
+                {
+                    int Cur_Weight =i->getDWeight();
+                    int Set_Weight = Path[N].getVal2().getVal1();
+
+                    if(Set_Weight > Cur_Weight) {
+                        Path[N-1] = To_Insert;
+                        //Path.erase(Path.begin() + N + 1);
+                        Return_Self = true;
+                    }
+                }
+                else
+                {
+                    Path[N-1] = To_Insert;
+                    //Path.erase(Path.begin() + N + 1);
+                    Return_Self = true;
+                }
+
+            }
+        }
+
+        //Allows previous nodes to add themselves to the path
+        if(Return_Self)
+        {
+            return Path;
+        }
+    }
+
+    //base case
+    else
+    {
+        if(Cur->name == Target)
+        {
+            return Path;
+        }
+        else
+        {
+            return {};
+        }
+    }
+
+    visiting.pop_back();
+    return {};
+}
+
+void GraphAlgorithms::DFS_nAway(string Start, string Target, int N) {
+    auto IdealPath = DFS(Start, Target, N+1);
+
+    if(!IdealPath.empty()) {
+        IdealPath.pop_back();
+        int totalDistance, totalCost = 0;
+        cout << "The shortest past from " << Start << " to " << Target << " with " << N << " hops is: " << Start;
+        for (int i = N; i >= 0; i--) {
+            cout << "->" << IdealPath[i].getVal1().substr(0, 3);
+            totalDistance += IdealPath[i].getVal2().getVal1();
+            totalCost += IdealPath[i].getVal2().getVal2();
+        }
+    }
+    else
+    {
+        cout<<"No path exists from " << Start << " to " << Target << " in " << N << " hops."<<endl;
+    }
+}
+
 
 
