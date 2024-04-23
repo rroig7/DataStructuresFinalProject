@@ -107,7 +107,7 @@ vector<AirportNode*> Graph::search_by_state(string state){
 void Graph::setTable(std::vector<std::vector<std::string>> csvRows) {
     for(int j = 0; j < 2; j++) {
         for (vector<string> i: csvRows) {
-            auto *Node = new AirportNode(i[j], i[2], i[3]);
+            auto *Node = new AirportNode(i[j], i[2+(j*2)], i[3+(j*2)]);
             bool completion = insert(i[j], Node);
             if (!completion) {
                 free(Node);

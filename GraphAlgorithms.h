@@ -38,6 +38,10 @@ public:
     
     int minSpanningTree_Prim();
 
+    vector< Tuple<string, Tuple<int, int>> > DFS(string Start, string Target, int N);
+
+    void DFS_nAway(string Start, string Target, int N);
+
 };
 
 

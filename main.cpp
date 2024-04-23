@@ -43,7 +43,8 @@ int main(){
 
     // Problem 4
     cout << "Problem 4" << endl;
-
+    algos.DFS_nAway("IAD", "MIA", 10);
+    cout << endl;
 
     // Problem 5
     cout << "Problem 5" << endl;
@@ -63,7 +64,7 @@ int main(){
     
     // Problem 8 Done
     cout << "Problem 8" << endl;
-//    algosTwo.minSpanningTree_Kruskal();
+    algosTwo.minSpanningTree_Kruskal();
     
     
 
