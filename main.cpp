@@ -4,9 +4,11 @@
 
 #include "FileHandler.h"
 #include "AirportNode.h"
-#include "DirectFlight.h"
+#include "Edge.h"
 #include "iostream"
-#include "MiniHash.h"
+#include "Graph.h"
+#include "Queue.cpp"
+#include "GraphAlgorithms.h"
 
 using namespace std;
 
@@ -14,67 +16,61 @@ using namespace std;
 int main(){
     
     FileHandler infile("../airports.csv");
-    vector< vector<string> > fileData = infile.getRowsAsVector();
+    const vector< vector<string> >& fileData = infile.getFileVector();
+    
+    auto *T1 = new Graph(166);
+    
+    GraphAlgorithms algos;
+    GraphAlgorithms algosTwo;
+    T1->setTable(fileData);
+    
+    //lol idk why this is here
+    //    algos.SearchAlg("MSP", "MIA", 2);
+    
+    // Problem 1
+    cout << "Problem 1" << endl;
+    algos.setGraph(T1);
+    
+    // Problem 2
+    cout << "Problem 2" << endl;
+    algos.findShortestPath("IAD", "MIA");
+
+    // Problem 3
+    cout << "Problem 3" << endl;
+    algos.visitState("IAD", "NY");
 
 
-    int UniqueTotal = 0;
-    for(vector<string> i : fileData)
-    {
-        static string Prev_Port = " ";
-        if(Prev_Port == i[0]) { continue; }
-        UniqueTotal++;
-        Prev_Port = i[0];
-    }
-    for(vector<string> i : fileData)
-    {
-        static vector<string> FoundAlready;
-        string CurPort = i[1];
-        bool NoFind = false;
-        for(vector<string> j : fileData)
-        {
-            if(CurPort == j[0]) {
-                NoFind = true; break;
-            }
-        }
-        if(!NoFind)
-        {
-            for(string k : FoundAlready)
-            {
-                if(CurPort == k)
-                {NoFind = true; break;}
-            }
-            if(!NoFind) {
-                FoundAlready.push_back(CurPort);
-                UniqueTotal++;
-            }
-        }
 
-    }
+    // Problem 4
+    cout << "Problem 4" << endl;
+    algos.DFS_nAway("IAD", "MIA", 10);
+    cout << endl;
 
-    MiniHash T1(UniqueTotal);
-
-    for(int j = 0; j < 2; j++) {
-        for (vector<string> i: fileData) {
-            auto *Node = new AirportNode(i[j]);
-            bool completion = T1.insert(i[j], Node);
-            if (!completion) {
-                free(Node);
-            }
-        }
-    }
-
-    for(vector<string> i : fileData)
-    {
-        T1.search(i[0])->Add_Edge(T1.search(i[1]), stoi(i[6]), stoi(i[7]));
-    }
-
-    for(MiniHashNode* i : T1.table)
-    {
-        cout<<"Airport:" << i->Key << " Edges:";
-        i->Data->Print_Edges();
-        cout<<endl;
-    }
+    // Problem 5
+    cout << "Problem 5" << endl;
+    algos.Total_Connections();
 
 
+    // Undirected Graph
+    // Problem 6
+    cout << "Problem 6" << endl;
+    Graph T2(T1);
+    T2.unDirect(fileData);
+
+    // Problem 7
+    cout << "Problem 7" << endl;
+    algosTwo.setGraph(&T2);
+    algosTwo.minSpanningTree_Prim();
+    
+    // Problem 8 Done
+    cout << "Problem 8" << endl;
+    algosTwo.minSpanningTree_Kruskal();
+    
+    
+
+
+
+    //T1->printTable();
+    
     return 0;
 }

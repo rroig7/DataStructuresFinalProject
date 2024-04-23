@@ -19,11 +19,15 @@ public:
     const std::string &getFilePath() const;
 
     void setFilePath(const std::string &path);
-    
+    const std::vector<std::vector<std::string>> &getFileVector() const;
+
+
+protected:
     std::vector<std::vector<std::string>> getRowsAsVector();
 
 private:
     std::string filePath;
+    std::vector<std::vector<std::string>> fileVector;
 };
 
 

@@ -7,19 +7,24 @@
 
 #include <vector>
 #include "iostream"
-#include "DirectFlight.h"
+#include "Edge.h"
 
-class DirectFlight;
+class Edge;
 
 using namespace std;
 class AirportNode {
 public:
     string name;
-    vector<DirectFlight*> Edges;
+    string city;
+    string state;
+    vector<Edge*> Edges;
+    vector<Edge*> Prev_Ports;
 
-    AirportNode(string Airport);
-    void Add_Edge( AirportNode* OtherNode, int Distance, int Cost);
+    explicit AirportNode(string Airport, string Home_City, string Home_State);
+    AirportNode(AirportNode* Other);
+    void Add_Port(AirportNode* OtherNode, int Distance, int Cost, bool direction);
     void Print_Edges();
+    void print_PrevPorts();
 
 
 };
