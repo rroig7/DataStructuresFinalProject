@@ -387,11 +387,14 @@ int GraphAlgorithms::minSpanningTree_Prim() {
     // Push the first vertice in the vertices vector into mstVerticies (The node pushed in doesn't matter as it is arbitrary
     mstVertices.push_back(vertices[0]);
     vector<TripleTuple<AirportNode*, AirportNode*, int>> toCheck;
+    vector<TripleTuple<AirportNode*, AirportNode*, int>> mstEdges;
 
     //TESTING
     int totalMstCost = 0;
     int totalEdges = 0;
-
+    
+    
+    
     // Should add all the edges of all mstVerticies into a temp vector for checking each edge to find the smallest one.
     for (auto v : vertices){
         
@@ -403,34 +406,82 @@ int GraphAlgorithms::minSpanningTree_Prim() {
 
             // Fills toCheck vector with all edges of the current mstVerticies.
             for (auto e: allEdges) {
-                if (origin == e.getVal1()->name) {
+                if (origin == e.getVal1()->name ) {
                     toCheck.push_back(e);
                 }
+                
+                for (auto x: mstVertices){
+                    if (x->name == e.getVal1()->name){
+                        toCheck.push_back(e);
+                    }
+                }
+                
             }
+            
+            
+            for (int o = 0; o < 100; o++){
+                for (int i = 0; i < mstEdges.size(); i++){
+                    for (int k = 0; k < toCheck.size(); k++){
+                        if ((toCheck[k].getVal1()->name == mstEdges[i].getVal1()->name &&
+                            toCheck[k].getVal2()->name == mstEdges[i].getVal2()->name) || 
+                            (toCheck[k].getVal1()->name == mstEdges[i].getVal2()->name &&
+                            toCheck[k].getVal2()->name == mstEdges[i].getVal1()->name) )  {
+                            toCheck.erase(toCheck.begin() + k);
+                        }
+                    }
+                }
+            }
+
 
             // Sort toCheck to get the smallest edge value in first position.
             std::sort(toCheck.begin(), toCheck.end(), sortbyth);
 
             // Get the smallest edge in the current mstVertices and push the node it leads to into mstVerticies.
 
+            
             origin = toCheck[0].getVal1()->name;
             AirportNode *smallestEdge = toCheck[0].getVal2();
             int smallestEdgeCost = toCheck[0].getVal3();
+            mstEdges.push_back(toCheck[0]);
             mstVertices.push_back(smallestEdge);
+            
+            
+            
+//            if (origin != smallestEdge->name){
+//                mstVertices.push_back(smallestEdge);
+//            }
+
 
             // Print out origin airport name, destination airport name, and cost of the edge between them.
-            cout << origin << " - " << smallestEdge->name << " " << smallestEdgeCost << endl;
 
-            totalMstCost += smallestEdgeCost;
+
             totalEdges++;
 
             // Clear toCheck vector to prevent double-checking.
             toCheck.clear();
+
+
+
+
         }
+
     }
     
+    for (auto p: mstEdges){
+        
+        string origin = p.getVal1()->name;
+        string destination = p.getVal2()->name;
+        int cost = p.getVal3();
+        totalMstCost += cost;
+        
+        cout << origin << " - " << destination << " " << cost << endl;
+
+    }
+
+    
+    
     cout << "Verticies: "<< mstVertices.size() << endl;
-    cout << "Edges: "<< totalEdges << endl;
+    cout << "Edges: "<< mstEdges.size() << endl;
     cout << "Total Cost: " << totalMstCost << endl;
     return 0;
 }
